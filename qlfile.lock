@@ -23,10 +23,10 @@
   :repos "eshamster/proto-cl-client-side-rendering"
   :url "https://github.com/eshamster/proto-cl-client-side-rendering/archive/9e77e1f6dad2cac9f147bc492d33509688339297.tar.gz"
   :ref "9e77e1f6dad2cac9f147bc492d33509688339297"))
-("cl-web-2d-game" .
+("cl-csr-2d-game" .
  (:class qlot.source.github:source-github
-  :initargs (:project-name "cl-web-2d-game" :repos "eshamster/cl-csr-2d-game" :ref nil :branch nil :tag nil)
-  :version "github-b59897898d781ca5edb85bed0dfb771d0b7c43d4"
+  :initargs (:project-name "cl-csr-2d-game" :repos "eshamster/cl-csr-2d-game" :ref nil :branch nil :tag nil)
+  :version "github-670ac0d22ba4cef1b14da120415001acfe7bf4c5"
   :repos "eshamster/cl-csr-2d-game"
-  :url "https://github.com/eshamster/cl-csr-2d-game/archive/b59897898d781ca5edb85bed0dfb771d0b7c43d4.tar.gz"
-  :ref "b59897898d781ca5edb85bed0dfb771d0b7c43d4"))
+  :url "https://github.com/eshamster/cl-csr-2d-game/archive/670ac0d22ba4cef1b14da120415001acfe7bf4c5.tar.gz"
+  :ref "670ac0d22ba4cef1b14da120415001acfe7bf4c5"))
