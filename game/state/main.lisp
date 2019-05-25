@@ -2,24 +2,21 @@
   (:use :cl
         :cl-ps-ecs
         :cl-csr-2d-game)
-  (:import-from :proto-cl-client-side-rendering
-                :log-console))
+  (:import-from :cl-csr-jintori/game/each-client-manager
+                :init-client-manager))
 (in-package :cl-csr-jintori/game/state/main)
 
 (def-game-state main ((parent (make-ecs-entity)))
   :start-process
   (state-lambda (parent)
-    (log-console :message "start-process")
-    (stack-default-ecs-entity-parent parent)
+    (with-ecs-entity-parent (parent)
+      (init-client-manager))
     t)
   :process
-  (state-lambda ()
-    (log-console :message "process")
+  (state-lambda (parent)
+    (with-ecs-entity-parent (parent))
     nil)
   :end-process
   (state-lambda (parent)
-    (log-console :message "end-process")
-    (let ((got-parent (pop-default-ecs-entity-parent)))
-      (assert (eq parent got-parent)))
     (delete-ecs-entity parent)
     t))
