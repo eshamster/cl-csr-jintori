@@ -7,14 +7,17 @@
                 :get-param)
   (:import-from :proto-cl-client-side-rendering
                 :get-mouse-pos
-                :mouse-up-p))
+                :mouse-up-p
+                :mouse-down-now-p
+                :get-touch-summary-pos
+                :touch-summary-up-p
+                :touch-summary-down-now-p))
 (in-package :cl-csr-jintori/game/balloon)
 
 ;; --- interface --- ;;
 
 (defun add-balloon (&key client-id color)
-  ;; TODO: Get touch pos if touched.
-  (multiple-value-bind (x y) (get-mouse-pos client-id)
+  (multiple-value-bind (x y) (get-mouse-or-touch-pos client-id)
     ;; TODO: Check if the pointed place is empty.
     (let ((balloon (make-ecs-entity))
           (r (get-balloon-param :first-r)))
@@ -35,6 +38,14 @@
       (add-ecs-entity balloon))))
 
 ;; --- internal --- ;;
+
+(defun get-mouse-or-touch-pos (client-id)
+  ;; Note: Assume that it is called when some input is in donw-now state.
+  (cond ((mouse-down-now-p client-id :left)
+         (get-mouse-pos client-id))
+        ((touch-summary-down-now-p client-id)
+         (get-touch-summary-pos client-id))
+        (t (error "No input is in donw-now state"))))
 
 (defmacro get-balloon-param (&rest keys)
   `(get-param :balloon ,@keys))
@@ -68,9 +79,9 @@
                                   (process-state-expand balloon))))))
 
 (defun process-state-expand (balloon)
-  (let ((can-expand-p (expand-balloon balloon (get-balloon-param :expand-speed)))
-        ;; TODO: Consider touch input
-        (up-p (mouse-up-p (get-entity-param balloon :client-id) :left)))
+  (let* ((can-expand-p (expand-balloon balloon (get-balloon-param :expand-speed)))
+         (id (get-entity-param balloon :client-id))
+         (up-p (and (mouse-up-p id :left) (touch-summary-up-p id))))
     (when (or (not can-expand-p) up-p)
       (make-state-guard :balloon balloon))))
 
