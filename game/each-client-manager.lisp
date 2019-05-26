@@ -9,6 +9,8 @@
                 :register-callback-on-connecting
                 :register-callback-on-disconnecting
                 :mouse-down-now-p
+                :get-mouse-pos
+                :get-touch-summary-pos
                 :touch-summary-down-now-p))
 (in-package :cl-csr-jintori/game/each-client-manager)
 
@@ -40,7 +42,8 @@
         (color (get-entity-param manager-entity :color)))
     (when (or (mouse-down-now-p id :left)
               (touch-summary-down-now-p id))
-      (add-balloon :client-id id :color color))))
+      (multiple-value-bind (x y) (get-mouse-or-touch-pos id)
+        (add-balloon :client-id id :x x :y y :color color)))))
 
 (defun delete-each-client-manager (client-id)
   (let ((manager (find-each-client-manager client-id)))
@@ -64,3 +67,10 @@
             (+ (ash color 8) (random #x100))))
     color))
 
+(defun get-mouse-or-touch-pos (client-id)
+  ;; Note: Assume that it is called when some input is in donw-now state.
+  (cond ((mouse-down-now-p client-id :left)
+         (get-mouse-pos client-id))
+        ((touch-summary-down-now-p client-id)
+         (get-touch-summary-pos client-id))
+        (t (error "No input is in donw-now state"))))
