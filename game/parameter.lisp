@@ -35,4 +35,5 @@
   (convert-to-layered-hash
    (:balloon (:first-r #lx20
               :expand-speed #lx1
-              :guard-time 60))))
+              :guard-time 60)
+    :client (:search-r #x10))))

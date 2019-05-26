@@ -4,7 +4,11 @@
         :cl-csr-2d-game)
   (:export :init-client-manager)
   (:import-from :cl-csr-jintori/game/balloon
-                :add-balloon)
+                :add-balloon
+                :find-collided-balloon
+                :try-changing-balloon-owner)
+  (:import-from :cl-csr-jintori/game/parameter
+                :get-param)
   (:import-from :proto-cl-client-side-rendering
                 :register-callback-on-connecting
                 :register-callback-on-disconnecting
@@ -43,7 +47,16 @@
     (when (or (mouse-down-now-p id :left)
               (touch-summary-down-now-p id))
       (multiple-value-bind (x y) (get-mouse-or-touch-pos id)
-        (add-balloon :client-id id :x x :y y :color color)))))
+        (add-or-change-balloon id x y color)))))
+
+(defun add-or-change-balloon (id x y color)
+  (let* ((r (get-param :client :search-r))
+         (balloon (find-collided-balloon :x x :y y :r r)))
+    (if balloon
+        (try-changing-balloon-owner :balloon balloon
+                                    :client-id id
+                                    :color color)
+        (add-balloon :client-id id :x x :y y :color color))))
 
 (defun delete-each-client-manager (client-id)
   (let ((manager (find-each-client-manager client-id)))
