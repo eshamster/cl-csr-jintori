@@ -53,12 +53,8 @@
 
 (defun find-collided-balloon (&key x y r)
   (do-balloon (balloon)
-    (let ((balloon-pos (calc-global-point balloon))
-          (balloon-r (get-entity-param balloon :r)))
-      (when (<= (calc-dist-p2 balloon-pos
-                              (make-vector-2d :x x :y y))
-                (expt (+ r balloon-r) 2))
-        (return-from find-collided-balloon balloon)))))
+    (when (balloon-collided-p balloon x y r)
+      (return-from find-collided-balloon balloon))))
 
 ;; --- internal --- ;;
 
@@ -70,14 +66,44 @@
   (register-next-frame-func
    (lambda ()
      ;; TODO: Prevent sinking into another balloon
+     ;; TODO: Prevent extending out of screen
      (delete-ecs-component-type 'model-2d balloon)
      (let ((r (+ (get-entity-param balloon :r) diff-r)))
        (add-ecs-component-list
         balloon
         (make-balloon-model r (get-entity-param balloon :color)))
        (setf (get-entity-param balloon :r) r))))
-  ;; TODO: Return nil when colliding to another balloon in the next frame.
-  t)
+  (multiple-value-bind (x y r) (get-balloon-xyr balloon)
+    (not (or (get-collided-balloon-list balloon x y (+ r diff-r))
+             (out-of-screen-p x y (+ r diff-r))))))
+
+(defun get-collided-balloon-list (balloon x y r)
+  (let ((result nil))
+    (do-balloon (target-balloon)
+      (when (and (not (eq balloon target-balloon))
+                 (balloon-collided-p target-balloon x y r))
+        (push target-balloon result)))
+    result))
+
+(defun balloon-collided-p (balloon x y r)
+  (let ((balloon-pos (calc-global-point balloon))
+        (balloon-r (get-entity-param balloon :r)))
+    (<= (calc-dist-p2 balloon-pos
+                      (make-vector-2d :x x :y y))
+        (expt (+ r balloon-r) 2))))
+
+(defun out-of-screen-p (x y r)
+  (or (> (+ x r) #lx1000)
+      (< (- x r) 0)
+      (> (+ y r) #ly1000)
+      (< (- y r) 0)))
+
+(defun get-balloon-xyr (balloon)
+  (let ((pos (calc-global-point balloon))
+        (r (get-entity-param balloon :r)))
+    (values (point-2d-x pos)
+            (point-2d-y pos)
+            r)))
 
 ;; - state - ;;
 
