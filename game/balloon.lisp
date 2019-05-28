@@ -4,7 +4,12 @@
         :cl-csr-2d-game)
   (:export :add-balloon
            :find-collided-balloon
-           :try-changing-balloon-owner)
+           :try-changing-balloon-owner
+           :do-balloon
+           :get-balloon-r
+           :get-balloon-space
+           :get-balloon-color
+           :get-balloon-client-id)
   (:import-from :cl-csr-jintori/game/parameter
                 :get-param)
   (:import-from :proto-cl-client-side-rendering
@@ -17,11 +22,11 @@
 (defmacro get-balloon-param (&rest keys)
   `(get-param :balloon ,@keys))
 
+;; --- interface --- ;;
+
 (defmacro do-balloon ((var) &body body)
   `(do-tagged-ecs-entities (,var :balloon)
      ,@body))
-
-;; --- interface --- ;;
 
 (defun add-balloon (&key x y client-id color)
   ;; TODO: Check if the pointed place is empty.
@@ -55,6 +60,18 @@
   (do-balloon (balloon)
     (when (balloon-collided-p balloon x y r)
       (return-from find-collided-balloon balloon))))
+
+(defun get-balloon-r (balloon)
+  (get-entity-param balloon :r))
+
+(defun get-balloon-space (balloon)
+  (* PI (expt (get-balloon-r balloon) 2)))
+
+(defun get-balloon-color (balloon)
+  (get-entity-param balloon :color))
+
+(defun get-balloon-client-id (balloon)
+  (get-entity-param balloon :client-id))
 
 ;; --- internal --- ;;
 
@@ -100,7 +117,7 @@
 
 (defun get-balloon-xyr (balloon)
   (let ((pos (calc-global-point balloon))
-        (r (get-entity-param balloon :r)))
+        (r (get-balloon-r balloon)))
     (values (point-2d-x pos)
             (point-2d-y pos)
             r)))

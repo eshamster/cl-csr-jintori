@@ -36,4 +36,6 @@
    (:balloon (:first-r #lx20
               :expand-speed #lx1
               :guard-time 60)
-    :client (:search-r #x10))))
+    :client (:search-r #lx10)
+    :stat-graph (:width #lx40 :length #lx960
+                 :x #lx20 :y #ly20))))
