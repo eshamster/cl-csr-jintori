@@ -9,6 +9,8 @@
                 :try-changing-balloon-owner)
   (:import-from :cl-csr-jintori/game/parameter
                 :get-param)
+  (:import-from :cl-csr-jintori/game/touch-marker
+                :add-touch-marker)
   (:import-from :proto-cl-client-side-rendering
                 :register-callback-on-connecting
                 :register-callback-on-disconnecting
@@ -47,7 +49,8 @@
     (when (or (mouse-down-now-p id :left)
               (touch-summary-down-now-p id))
       (multiple-value-bind (x y) (get-mouse-or-touch-pos id)
-        (add-or-change-balloon id x y color)))))
+        (add-or-change-balloon id x y color)
+        (add-touch-marker :x x :y y :color color)))))
 
 (defun add-or-change-balloon (id x y color)
   (let* ((r (get-param :client :search-r))

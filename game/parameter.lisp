@@ -1,13 +1,17 @@
 (defpackage cl-csr-jintori/game/parameter
   (:use :cl
         :cl-csr-2d-game)
-  (:export :get-param))
+  (:export :get-param
+           :get-depth))
 (in-package :cl-csr-jintori/game/parameter)
 
 ;; --- interface --- ;;
 
 (defmacro get-param (&rest keys)
   `(get-layered-hash *params* ,@keys))
+
+(defmacro get-depth (&rest keys)
+  `(get-layered-hash *depth* ,@keys))
 
 ;; --- internal --- ;;
 
@@ -38,4 +42,9 @@
               :guard-time 60)
     :client (:search-r #lx10)
     :stat-graph (:width #lx40 :length #lx960
-                 :x #lx20 :y #ly20))))
+                 :x #lx20 :y #ly20)
+    :marker (:duration 10 :r #lx10))))
+
+(defparameter *depth*
+  (convert-to-layered-hash
+   (:marker 10)))
