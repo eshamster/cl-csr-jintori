@@ -47,4 +47,6 @@
 
 (defparameter *depth*
   (convert-to-layered-hash
-   (:marker 10)))
+   (:balloon 10
+    :marker 100
+    :stat (:background 20 :foreground 30))))

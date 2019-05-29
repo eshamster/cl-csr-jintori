@@ -11,6 +11,7 @@
            :get-balloon-color
            :get-balloon-client-id)
   (:import-from :cl-csr-jintori/game/parameter
+                :get-depth
                 :get-param)
   (:import-from :proto-cl-client-side-rendering
                 :mouse-up-p
@@ -77,7 +78,8 @@
 
 (defun make-balloon-model (r color)
   (make-model-2d :mesh (make-circle-mesh :r r :color color
-                                         :fill-p t)))
+                                         :fill-p t)
+                 :depth (get-depth :balloon)))
 (defun expand-balloon (balloon diff-r)
   (check-entity-tags balloon :balloon)
   (register-next-frame-func

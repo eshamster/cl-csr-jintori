@@ -9,6 +9,7 @@
                 :get-balloon-color
                 :get-balloon-client-id)
   (:import-from :cl-csr-jintori/game/parameter
+                :get-depth
                 :get-param)
   (:import-from :alexandria
                 :ensure-gethash
@@ -57,7 +58,7 @@
                                               :color (client-stat-color client-stat)
                                               :fill-p t)
                         :offset (make-point-2d :x x)
-                        :depth 1)
+                        :depth (get-depth :stat :foreground))
          stat-manager)
         (incf x length)))))
 
@@ -66,7 +67,8 @@
                         :color #x444444
                         :width (get-stat-param :length)
                         :height (get-stat-param :width)
-                        :fill-p t)))
+                        :fill-p t)
+                 :depth (get-depth :stat :background)))
 
 (defun create-client-stat-table ()
   (let ((result (make-hash-table)))
