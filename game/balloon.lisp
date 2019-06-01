@@ -38,6 +38,7 @@
      balloon
      (make-point-2d :x x :y y)
      (make-balloon-model r color)
+     (make-full-guard-model r)
      (make-script-2d :func (lambda (entity)
                              (process-game-state
                               (get-entity-param entity :state-manager))))
@@ -80,17 +81,41 @@
   (make-model-2d :mesh (make-circle-mesh :r r :color color
                                          :fill-p t)
                  :depth (get-depth :balloon)))
+
+(defun make-rest-guard-model (r rest-duration max-duration)
+  (make-model-2d :mesh (make-arc-mesh :r (* r 1.1)
+                                      :color (get-balloon-param :edge-color)
+                                      :start-angle (* 1/2 PI)
+                                      :sweep-angle (* -2 PI (/ rest-duration
+                                                               max-duration)))
+                 :depth (get-depth :balloon-edge)
+                 :label :balloon-edge))
+
+(defun make-full-guard-model (r)
+  (make-rest-guard-model r 1 1))
+
+(defun update-model-in-guard-state (balloon rest-duration max-duration)
+  (register-next-frame-func
+   (lambda ()
+     (delete-ecs-component (find-model-2d-by-label balloon :balloon-edge)
+                           balloon)
+     (when (> rest-duration 0)
+       (add-ecs-component-list
+        balloon
+        (make-rest-guard-model (get-entity-param balloon :r)
+                               rest-duration max-duration))))))
+
 (defun expand-balloon (balloon diff-r)
   (check-entity-tags balloon :balloon)
   (register-next-frame-func
    (lambda ()
      ;; TODO: Prevent sinking into another balloon
-     ;; TODO: Prevent extending out of screen
      (delete-ecs-component-type 'model-2d balloon)
      (let ((r (+ (get-entity-param balloon :r) diff-r)))
        (add-ecs-component-list
         balloon
-        (make-balloon-model r (get-entity-param balloon :color)))
+        (make-balloon-model r (get-entity-param balloon :color))
+        (make-full-guard-model r))
        (setf (get-entity-param balloon :r) r))))
   (multiple-value-bind (x y r) (get-balloon-xyr balloon)
     (not (or (get-collided-balloon-list balloon x y (+ r diff-r))
@@ -141,16 +166,20 @@
     (when (or (not can-expand-p) up-p)
       (make-state-guard :balloon balloon))))
 
-;; TODO: Implement animation
 (defstruct (state-guard
              (:include balloon-state
-                       (process (state-lambda (balloon rest-guard-time)
+                       (start-process (state-lambda (guard-time rest-guard-time)
+                                        (setf rest-guard-time guard-time)))
+                       (process (state-lambda (balloon guard-time rest-guard-time)
                                   (decf rest-guard-time)
+                                  (update-model-in-guard-state balloon
+                                                               rest-guard-time
+                                                               guard-time)
                                   (when (<= rest-guard-time 0)
                                     (make-state-fragile :balloon balloon))))))
-  (rest-guard-time (get-balloon-param :guard-time)))
+  (guard-time (get-balloon-param :guard-time))
+  rest-guard-time)
 
-;; TODO: Implement changing owner if another client touch
 (defstruct (state-fragile
              (:include balloon-state
                        (start-process (state-lambda (balloon)

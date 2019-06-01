@@ -39,7 +39,8 @@
   (convert-to-layered-hash
    (:balloon (:first-r #lx20
               :expand-speed #lx1
-              :guard-time 60)
+              :guard-time 60
+              :edge-color #xff0000)
     :client (:search-r #lx10)
     :stat-graph (:width #lx40 :length #lx960
                  :x #lx20 :y #ly20)
@@ -48,5 +49,6 @@
 (defparameter *depth*
   (convert-to-layered-hash
    (:balloon 10
+    :balloon-edge 15
     :marker 100
     :stat (:background 20 :foreground 30))))
