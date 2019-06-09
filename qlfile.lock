@@ -19,14 +19,14 @@
 ("proto-cl-client-side-rendering" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "proto-cl-client-side-rendering" :repos "eshamster/proto-cl-client-side-rendering" :ref nil :branch nil :tag nil)
-  :version "github-4fa134c2e493e4f869dd0365a96e49df7b636c34"
+  :version "github-5dc0f11061157bebfb49c30e70135fa182181fd8"
   :repos "eshamster/proto-cl-client-side-rendering"
-  :url "https://github.com/eshamster/proto-cl-client-side-rendering/archive/4fa134c2e493e4f869dd0365a96e49df7b636c34.tar.gz"
-  :ref "4fa134c2e493e4f869dd0365a96e49df7b636c34"))
+  :url "https://github.com/eshamster/proto-cl-client-side-rendering/archive/5dc0f11061157bebfb49c30e70135fa182181fd8.tar.gz"
+  :ref "5dc0f11061157bebfb49c30e70135fa182181fd8"))
 ("cl-csr-2d-game" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "cl-csr-2d-game" :repos "eshamster/cl-csr-2d-game" :ref nil :branch nil :tag nil)
-  :version "github-b9ae553d283ece43162f9ef6f51cf99e01c572b4"
+  :version "github-509da91029f8696a4a7705065fbd4292e21f3e9c"
   :repos "eshamster/cl-csr-2d-game"
-  :url "https://github.com/eshamster/cl-csr-2d-game/archive/b9ae553d283ece43162f9ef6f51cf99e01c572b4.tar.gz"
-  :ref "b9ae553d283ece43162f9ef6f51cf99e01c572b4"))
+  :url "https://github.com/eshamster/cl-csr-2d-game/archive/509da91029f8696a4a7705065fbd4292e21f3e9c.tar.gz"
+  :ref "509da91029f8696a4a7705065fbd4292e21f3e9c"))
