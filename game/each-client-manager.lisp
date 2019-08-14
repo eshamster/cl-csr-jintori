@@ -2,7 +2,7 @@
   (:use :cl
         :cl-ps-ecs
         :cl-csr-2d-game)
-  (:export :init-client-manager)
+  (:export :update-client-manager)
   (:import-from :cl-csr-jintori/game/balloon
                 :add-balloon
                 :find-collided-balloon
@@ -12,8 +12,8 @@
   (:import-from :cl-csr-jintori/game/touch-marker
                 :add-touch-marker)
   (:import-from :proto-cl-client-side-rendering
-                :register-callback-on-connecting
-                :register-callback-on-disconnecting
+                :get-new-client-id-list
+                :get-deleted-client-id-list
                 :mouse-down-now-p
                 :get-mouse-pos
                 :get-touch-summary-pos
@@ -22,11 +22,11 @@
 
 ;; --- interface --- ;;
 
-(defun init-client-manager ()
-  (register-callback-on-connecting
-   'add-each-client-manager #'add-each-client-manager)
-  (register-callback-on-disconnecting
-   'delete-each-client-manager #'delete-each-client-manager))
+(defun update-client-manager ()
+  (dolist (id (get-new-client-id-list))
+    (add-each-client-manager id))
+  (dolist (id (get-deleted-client-id-list))
+    (delete-each-client-manager id)))
 
 ;; --- internal --- ;;
 
