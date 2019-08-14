@@ -1,7 +1,7 @@
 ("quicklisp" .
  (:class qlot.source.ql:source-ql-all
   :initargs (:distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
-  :version "2019-05-21"))
+  :version "2019-08-13"))
 ("ps-experiment" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "ps-experiment" :repos "eshamster/ps-experiment" :ref nil :branch nil :tag nil)
@@ -19,14 +19,14 @@
 ("proto-cl-client-side-rendering" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "proto-cl-client-side-rendering" :repos "eshamster/proto-cl-client-side-rendering" :ref nil :branch nil :tag nil)
-  :version "github-5dc0f11061157bebfb49c30e70135fa182181fd8"
+  :version "github-d3088cf3cf5ac1f91d34e8550aaecf05d5245b75"
   :repos "eshamster/proto-cl-client-side-rendering"
-  :url "https://github.com/eshamster/proto-cl-client-side-rendering/archive/5dc0f11061157bebfb49c30e70135fa182181fd8.tar.gz"
-  :ref "5dc0f11061157bebfb49c30e70135fa182181fd8"))
+  :url "https://github.com/eshamster/proto-cl-client-side-rendering/archive/d3088cf3cf5ac1f91d34e8550aaecf05d5245b75.tar.gz"
+  :ref "d3088cf3cf5ac1f91d34e8550aaecf05d5245b75"))
 ("cl-csr-2d-game" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "cl-csr-2d-game" :repos "eshamster/cl-csr-2d-game" :ref nil :branch nil :tag nil)
-  :version "github-509da91029f8696a4a7705065fbd4292e21f3e9c"
+  :version "github-878d4aaae2c51f848effb348389208af6aa6b0e5"
   :repos "eshamster/cl-csr-2d-game"
-  :url "https://github.com/eshamster/cl-csr-2d-game/archive/509da91029f8696a4a7705065fbd4292e21f3e9c.tar.gz"
-  :ref "509da91029f8696a4a7705065fbd4292e21f3e9c"))
+  :url "https://github.com/eshamster/cl-csr-2d-game/archive/878d4aaae2c51f848effb348389208af6aa6b0e5.tar.gz"
+  :ref "878d4aaae2c51f848effb348389208af6aa6b0e5"))

@@ -21,13 +21,16 @@
                 :register-next-frame-func))
 (in-package :cl-csr-jintori/server)
 
-(defun start-game (&key (port 5000))
+(defvar *port* 5000)
+
+(defun start-game (&key (port *port*))
   (stop-game)
   (start :port port
          :root-dir (asdf:component-pathname
                     (asdf:find-system :cl-csr-jintori))
          :init-func (lambda () (init-game))
-         :update-func (lambda () (update-game))))
+         :update-func (lambda () (update-game)))
+  (setf *port* port))
 
 (defun stop-game ()
   (stop))
