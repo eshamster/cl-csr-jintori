@@ -2,7 +2,8 @@
   (:use :cl
         :cl-ps-ecs
         :cl-csr-2d-game)
-  (:export :update-client-manager)
+  (:export :init-client-manager
+           :update-client-manager)
   (:import-from :cl-csr-jintori/game/balloon
                 :add-balloon
                 :find-collided-balloon
@@ -12,6 +13,7 @@
   (:import-from :cl-csr-jintori/game/touch-marker
                 :add-touch-marker)
   (:import-from :proto-cl-client-side-rendering
+                :get-client-id-list
                 :get-new-client-id-list
                 :get-deleted-client-id-list
                 :mouse-down-now-p
@@ -21,6 +23,10 @@
 (in-package :cl-csr-jintori/game/each-client-manager)
 
 ;; --- interface --- ;;
+
+(defun init-client-manager ()
+  (dolist (id (get-client-id-list))
+    (add-each-client-manager id)))
 
 (defun update-client-manager ()
   (dolist (id (get-new-client-id-list))
@@ -63,8 +69,10 @@
 
 (defun delete-each-client-manager (client-id)
   (let ((manager (find-each-client-manager client-id)))
-    (register-next-frame-func
-     (lambda () (delete-ecs-entity manager)))))
+    (when manager
+      (register-next-frame-func
+       (when (find-the-entity manager)
+         (lambda () (delete-ecs-entity manager)))))))
 
 (defun find-each-client-manager (client-id)
   (let (result)
@@ -72,7 +80,6 @@
       (when (= client-id (get-entity-param manager :client-id))
         (setf result manager)
         (return)))
-    (assert result)
     result))
 
 (defun get-next-color ()
