@@ -56,7 +56,7 @@
               (touch-summary-down-now-p id))
       (multiple-value-bind (x y) (get-mouse-or-touch-pos id)
         (add-or-change-balloon id x y color)
-        (add-touch-marker :x x :y y :color color)))))
+        (add-touch-marker :x x :y y :color color :client-id id)))))
 
 (defun add-or-change-balloon (id x y color)
   (let* ((r (get-param :client :search-r))

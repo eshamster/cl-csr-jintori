@@ -44,7 +44,8 @@
     :client (:search-r #lx10)
     :stat-graph (:width #lx40 :length #lx960
                  :x #lx20 :y #ly20)
-    :marker (:duration 10 :r #lx10))))
+    :marker (:global (:duration 10 :r #lx10)
+             :local (:duration 30 :length #ly400)))))
 
 (defparameter *depth*
   (convert-to-layered-hash
