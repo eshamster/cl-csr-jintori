@@ -5,7 +5,10 @@
   (:export :add-touch-marker)
   (:import-from :cl-csr-jintori/game/parameter
                 :get-param
-                :get-depth))
+                :get-depth)
+  (:import-from :proto-cl-client-side-rendering
+                :mouse-down-now-p
+                :touch-summary-down-now-p))
 (in-package :cl-csr-jintori/game/touch-marker)
 
 (defmacro get-marker-param (&rest keys)
@@ -55,7 +58,9 @@
        (make-line-model (* -1 half-len) 0 half-len 0)
        (make-script-2d :func (lambda (entity)
                                (decf rest-duration)
-                               (when (<= rest-duration 0)
+                               (when (or (<= rest-duration 0)
+                                         (mouse-down-now-p client-id :left)
+                                         (touch-summary-down-now-p client-id))
                                  (register-next-frame-func
                                   (when (find-the-entity entity)
                                     (lambda () (delete-ecs-entity entity)))))))))
