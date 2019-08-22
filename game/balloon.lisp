@@ -17,7 +17,8 @@
                 :mouse-up-p
                 :mouse-down-now-p
                 :touch-summary-up-p
-                :touch-summary-down-now-p))
+                :touch-summary-down-now-p
+                :client-alive-p))
 (in-package :cl-csr-jintori/game/balloon)
 
 (defmacro get-balloon-param (&rest keys)
@@ -41,7 +42,13 @@
      (make-full-guard-model r)
      (make-script-2d :func (lambda (entity)
                              (process-game-state
-                              (get-entity-param entity :state-manager))))
+                              (get-entity-param entity :state-manager))
+                             (when (and (balloon-owned-p entity)
+                                        (not (client-alive-p (get-entity-param entity :client-id))))
+                               (try-changing-balloon-owner
+                                :balloon entity
+                                :client-id (get-param :nil-owner :id)
+                                :color     (get-param :nil-owner :color)))))
      (init-entity-params
       :state-manager (init-game-state-manager
                       (make-state-expand :balloon balloon))
@@ -49,6 +56,10 @@
       :color color
       :r r))
     (add-ecs-entity balloon)))
+
+(defun balloon-owned-p (balloon)
+  (not (= (get-entity-param balloon :client-id)
+          (get-param :nil-owner :id))))
 
 (defun try-changing-balloon-owner (&key balloon client-id color)
   (check-entity-tags balloon :balloon)

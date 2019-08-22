@@ -5,10 +5,10 @@
 ("ps-experiment" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "ps-experiment" :repos "eshamster/ps-experiment" :ref nil :branch nil :tag nil)
-  :version "github-642dcbfb6f8e3b7c6febc2dd00b1f6fc71bca398"
+  :version "github-ede4f0ade50a125c3524b138e561ed9e9830dd03"
   :repos "eshamster/ps-experiment"
-  :url "https://github.com/eshamster/ps-experiment/archive/642dcbfb6f8e3b7c6febc2dd00b1f6fc71bca398.tar.gz"
-  :ref "642dcbfb6f8e3b7c6febc2dd00b1f6fc71bca398"))
+  :url "https://github.com/eshamster/ps-experiment/archive/ede4f0ade50a125c3524b138e561ed9e9830dd03.tar.gz"
+  :ref "ede4f0ade50a125c3524b138e561ed9e9830dd03"))
 ("cl-ps-ecs" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "cl-ps-ecs" :repos "eshamster/cl-ps-ecs" :ref nil :branch nil :tag nil)
@@ -19,10 +19,10 @@
 ("proto-cl-client-side-rendering" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "proto-cl-client-side-rendering" :repos "eshamster/proto-cl-client-side-rendering" :ref nil :branch nil :tag nil)
-  :version "github-d3088cf3cf5ac1f91d34e8550aaecf05d5245b75"
+  :version "github-e14274fd7cc105d6bba21cf47abac8c7deade860"
   :repos "eshamster/proto-cl-client-side-rendering"
-  :url "https://github.com/eshamster/proto-cl-client-side-rendering/archive/d3088cf3cf5ac1f91d34e8550aaecf05d5245b75.tar.gz"
-  :ref "d3088cf3cf5ac1f91d34e8550aaecf05d5245b75"))
+  :url "https://github.com/eshamster/proto-cl-client-side-rendering/archive/e14274fd7cc105d6bba21cf47abac8c7deade860.tar.gz"
+  :ref "e14274fd7cc105d6bba21cf47abac8c7deade860"))
 ("cl-csr-2d-game" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "cl-csr-2d-game" :repos "eshamster/cl-csr-2d-game" :ref nil :branch nil :tag nil)
