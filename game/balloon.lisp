@@ -29,13 +29,16 @@
      ,@body))
 
 (defun add-or-change-balloon (id x y color)
-  (let* ((r (get-balloon-param :first-r))
-         (balloon (find-collided-balloon :x x :y y :r r)))
-    (if balloon
-        (try-changing-balloon-owner :balloon balloon
-                                    :client-id id
-                                    :color color)
-        (add-balloon :client-id id :x x :y y :color color))))
+  (let* ((r (get-balloon-param :first-r)))
+    (when (out-of-screen-p x y r)
+      (return-from add-or-change-balloon))
+    (let ((balloon (find-collided-balloon :x x :y y :r r)))
+      (if balloon
+          (try-changing-balloon-owner :balloon balloon
+                                      :client-id id
+                                      :color color)
+          (add-balloon :client-id id :x x :y y :color color)))
+    t))
 
 (defun get-balloon-r (balloon)
   (get-entity-param balloon :r))
@@ -52,7 +55,6 @@
 ;; --- internal --- ;;
 
 (defun add-balloon (&key x y client-id color)
-  ;; TODO: Check if the pointed place is empty.
   (let ((balloon (make-ecs-entity))
         (r (get-balloon-param :first-r)))
     (add-entity-tag balloon :balloon)

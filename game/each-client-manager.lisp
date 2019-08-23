@@ -53,8 +53,8 @@
     (when (or (mouse-down-now-p id :left)
               (touch-summary-down-now-p id))
       (multiple-value-bind (x y) (get-mouse-or-touch-pos id)
-        (add-or-change-balloon id x y color)
-        (add-touch-marker :x x :y y :color color :client-id id)))))
+        (when (add-or-change-balloon id x y color)
+          (add-touch-marker :x x :y y :color color :client-id id))))))
 
 (defun delete-each-client-manager (client-id)
   (let ((manager (find-each-client-manager client-id)))

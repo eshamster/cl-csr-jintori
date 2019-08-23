@@ -41,7 +41,6 @@
               :expand-speed #lx1
               :guard-time 60
               :edge-color #xff0000)
-    :client (:search-r #lx10)
     ;; Assume that valid client id is positive number
     :nil-owner (:id -1 :color #x888888)
     :stat-graph (:width #lx40 :length #lx960
