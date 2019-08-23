@@ -5,9 +5,7 @@
   (:export :init-client-manager
            :update-client-manager)
   (:import-from :cl-csr-jintori/game/balloon
-                :add-balloon
-                :find-collided-balloon
-                :try-changing-balloon-owner)
+                :add-or-change-balloon)
   (:import-from :cl-csr-jintori/game/parameter
                 :get-param)
   (:import-from :cl-csr-jintori/game/touch-marker
@@ -57,15 +55,6 @@
       (multiple-value-bind (x y) (get-mouse-or-touch-pos id)
         (add-or-change-balloon id x y color)
         (add-touch-marker :x x :y y :color color :client-id id)))))
-
-(defun add-or-change-balloon (id x y color)
-  (let* ((r (get-param :client :search-r))
-         (balloon (find-collided-balloon :x x :y y :r r)))
-    (if balloon
-        (try-changing-balloon-owner :balloon balloon
-                                    :client-id id
-                                    :color color)
-        (add-balloon :client-id id :x x :y y :color color))))
 
 (defun delete-each-client-manager (client-id)
   (let ((manager (find-each-client-manager client-id)))

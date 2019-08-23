@@ -2,9 +2,7 @@
   (:use :cl
         :cl-ps-ecs
         :cl-csr-2d-game)
-  (:export :add-balloon
-           :find-collided-balloon
-           :try-changing-balloon-owner
+  (:export :add-or-change-balloon
            :do-balloon
            :get-balloon-r
            :get-balloon-space
@@ -29,6 +27,29 @@
 (defmacro do-balloon ((var) &body body)
   `(do-tagged-ecs-entities (,var :balloon)
      ,@body))
+
+(defun add-or-change-balloon (id x y color)
+  (let* ((r (get-balloon-param :first-r))
+         (balloon (find-collided-balloon :x x :y y :r r)))
+    (if balloon
+        (try-changing-balloon-owner :balloon balloon
+                                    :client-id id
+                                    :color color)
+        (add-balloon :client-id id :x x :y y :color color))))
+
+(defun get-balloon-r (balloon)
+  (get-entity-param balloon :r))
+
+(defun get-balloon-space (balloon)
+  (* PI (expt (get-balloon-r balloon) 2)))
+
+(defun get-balloon-color (balloon)
+  (get-entity-param balloon :color))
+
+(defun get-balloon-client-id (balloon)
+  (get-entity-param balloon :client-id))
+
+;; --- internal --- ;;
 
 (defun add-balloon (&key x y client-id color)
   ;; TODO: Check if the pointed place is empty.
@@ -73,20 +94,6 @@
   (do-balloon (balloon)
     (when (balloon-collided-p balloon x y r)
       (return-from find-collided-balloon balloon))))
-
-(defun get-balloon-r (balloon)
-  (get-entity-param balloon :r))
-
-(defun get-balloon-space (balloon)
-  (* PI (expt (get-balloon-r balloon) 2)))
-
-(defun get-balloon-color (balloon)
-  (get-entity-param balloon :color))
-
-(defun get-balloon-client-id (balloon)
-  (get-entity-param balloon :client-id))
-
-;; --- internal --- ;;
 
 (defun make-balloon-model (r color)
   (make-model-2d :mesh (make-circle-mesh :r r :color color
