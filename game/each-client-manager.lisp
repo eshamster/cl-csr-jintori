@@ -17,20 +17,24 @@
                 :mouse-down-now-p
                 :get-mouse-pos
                 :get-touch-summary-pos
-                :touch-summary-down-now-p))
+                :touch-summary-down-now-p)
+  (:import-from :alexandria
+                :appendf))
 (in-package :cl-csr-jintori/game/each-client-manager)
 
 ;; --- interface --- ;;
 
 (defun init-client-manager ()
   (dolist (id (get-client-id-list))
-    (add-each-client-manager id)))
+    (add-each-client-manager id))
+  (init-color-table))
 
 (defun update-client-manager ()
   (dolist (id (get-new-client-id-list))
     (add-each-client-manager id))
   (dolist (id (get-deleted-client-id-list))
-    (delete-each-client-manager id)))
+    (delete-each-client-manager id))
+  (update-color-table))
 
 ;; --- internal --- ;;
 
@@ -44,7 +48,7 @@
         (make-script-2d :func (lambda (entity)
                                 (process-client-manager entity)))
         (init-entity-params :client-id client-id
-                            :color (get-next-color)))
+                            :color (get-new-color client-id)))
        (add-ecs-entity manager)))))
 
 (defun process-client-manager (manager-entity)
@@ -71,14 +75,6 @@
         (return)))
     result))
 
-(defun get-next-color ()
-  ;; TODO: Consider a better solution than simple random
-  (let ((color 0))
-    (dotimes (i 3)
-      (setf color
-            (+ (ash color 8) (random #x100))))
-    color))
-
 (defun get-mouse-or-touch-pos (client-id)
   ;; Note: Assume that it is called when some input is in donw-now state.
   (cond ((mouse-down-now-p client-id :left)
@@ -86,3 +82,36 @@
         ((touch-summary-down-now-p client-id)
          (get-touch-summary-pos client-id))
         (t (error "No input is in donw-now state"))))
+
+;; - color table - ;;
+
+(defvar *reserved-color-queue* nil)
+(defvar *used-color-table* (make-hash-table)
+  "Key: client id, Value: color")
+
+(defun init-color-table ()
+  (setf *reserved-color-queue* (copy-list (get-param :client :color-table)))
+  (setf *used-color-table* (make-hash-table)))
+
+(defun queue-color (color)
+  (appendf *reserved-color-queue* (list color)))
+
+(defun dequeue-color ()
+  (pop *reserved-color-queue*))
+
+(defun update-color-table ()
+  (dolist (client-id (get-deleted-client-id-list))
+    (let ((color (gethash client-id *used-color-table*)))
+      (when color
+        (remhash client-id *used-color-table*)
+        (queue-color color)))))
+
+(defun get-new-color (client-id)
+  (let ((color (dequeue-color)))
+    (if color
+        (setf (gethash client-id *used-color-table*) color)
+        (let ((random-color 0))
+          (dotimes (i 3)
+            (setf random-color
+                  (+ (ash random-color 8) (random #x100))))
+          random-color))))
