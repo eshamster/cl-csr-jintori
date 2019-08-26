@@ -2,7 +2,9 @@
   (:use :cl
         :cl-csr-2d-game)
   (:export :get-param
-           :get-depth))
+           :get-depth
+           :get-field-width
+           :get-field-height))
 (in-package :cl-csr-jintori/game/parameter)
 
 ;; --- interface --- ;;
@@ -47,7 +49,7 @@
     :stat-graph (:width #lx40 :length #lx960
                  :x #lx20 :y #ly20)
     :marker (:global (:duration 10 :r #lx10)
-             :local (:duration 30 :length #ly400)))))
+             :local (:duration 30 :length #ly400 :color #xff0000)))))
 
 (defparameter *depth*
   (convert-to-layered-hash
@@ -55,3 +57,9 @@
     :balloon-edge 15
     :marker 100
     :stat (:background 20 :foreground 30))))
+
+(defun get-field-width ()
+  #lx1000)
+
+(defun get-field-height ()
+  #ly1000)

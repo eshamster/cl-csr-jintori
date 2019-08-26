@@ -10,6 +10,8 @@
                 :get-param)
   (:import-from :cl-csr-jintori/game/touch-marker
                 :add-touch-marker)
+  (:import-from :cl-csr-jintori/game/utils
+                :out-of-screen-p)
   (:import-from :proto-cl-client-side-rendering
                 :get-client-id-list
                 :get-new-client-id-list
@@ -57,8 +59,10 @@
     (when (or (mouse-down-now-p id :left)
               (touch-summary-down-now-p id))
       (multiple-value-bind (x y) (get-mouse-or-touch-pos id)
-        (when (add-or-change-balloon id x y color)
-          (add-touch-marker :x x :y y :color color :client-id id))))))
+        (unless (out-of-screen-p x y 0)
+          (let ((success-p (add-or-change-balloon id x y color)))
+            (add-touch-marker :x x :y y :color color :client-id id
+                              :success-p success-p)))))))
 
 (defun delete-each-client-manager (client-id)
   (let ((manager (find-each-client-manager client-id)))

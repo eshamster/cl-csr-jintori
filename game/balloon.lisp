@@ -7,10 +7,13 @@
            :get-balloon-r
            :get-balloon-space
            :get-balloon-color
-           :get-balloon-client-id)
+           :get-balloon-client-id
+           :get-balloon-first-r)
   (:import-from :cl-csr-jintori/game/parameter
                 :get-depth
                 :get-param)
+  (:import-from :cl-csr-jintori/game/utils
+                :out-of-screen-p)
   (:import-from :proto-cl-client-side-rendering
                 :mouse-up-p
                 :mouse-down-now-p
@@ -29,16 +32,19 @@
      ,@body))
 
 (defun add-or-change-balloon (id x y color)
+  "Add balloon or change balloon owner.
+If can neither create nor change, returns nil.
+Otherwise, returns generalized true."
   (let* ((r (get-balloon-param :first-r)))
     (when (out-of-screen-p x y r)
       (return-from add-or-change-balloon))
-    (let ((balloon (find-collided-balloon :x x :y y :r r)))
+    (let ((balloon (find-collided-balloon :x x :y y :r 0)))
       (if balloon
           (try-changing-balloon-owner :balloon balloon
                                       :client-id id
                                       :color color)
-          (add-balloon :client-id id :x x :y y :color color)))
-    t))
+          (unless (find-collided-balloon :x x :y y :r r)
+            (add-balloon :client-id id :x x :y y :color color))))))
 
 (defun get-balloon-r (balloon)
   (get-entity-param balloon :r))
@@ -51,6 +57,9 @@
 
 (defun get-balloon-client-id (balloon)
   (get-entity-param balloon :client-id))
+
+(defun get-balloon-first-r ()
+  (get-balloon-param :first-r))
 
 ;; --- internal --- ;;
 
@@ -90,7 +99,8 @@
     (delete-entity-tag balloon :balloon-fragile)
     (set-entity-param balloon
                       :client-id client-id
-                      :color color)))
+                      :color color)
+    t))
 
 (defun find-collided-balloon (&key x y r)
   (do-balloon (balloon)
@@ -155,12 +165,6 @@
     (<= (calc-dist-p2 balloon-pos
                       (make-vector-2d :x x :y y))
         (expt (+ r balloon-r) 2))))
-
-(defun out-of-screen-p (x y r)
-  (or (> (+ x r) #lx1000)
-      (< (- x r) 0)
-      (> (+ y r) #ly1000)
-      (< (- y r) 0)))
 
 (defun get-balloon-xyr (balloon)
   (let ((pos (calc-global-point balloon))
