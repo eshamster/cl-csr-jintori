@@ -180,11 +180,16 @@ Otherwise, returns generalized true."
 
 (defstruct (state-expand
              (:include balloon-state
-                       (process (state-lambda (balloon)
-                                  (process-state-expand balloon))))))
+                       (process (state-lambda (balloon speed)
+                                  (let ((next-state (process-state-expand balloon speed)))
+                                    (setf speed
+                                          (max (get-balloon-param :expand :min)
+                                               (- speed (get-balloon-param :expand :brake))))
+                                    next-state)))))
+  (speed (get-balloon-param :expand :first)))
 
-(defun process-state-expand (balloon)
-  (let* ((can-expand-p (expand-balloon balloon (get-balloon-param :expand-speed)))
+(defun process-state-expand (balloon speed)
+  (let* ((can-expand-p (expand-balloon balloon speed))
          (id (get-entity-param balloon :client-id))
          (up-p (and (mouse-up-p id :left) (touch-summary-up-p id))))
     (when (or (not can-expand-p) up-p)

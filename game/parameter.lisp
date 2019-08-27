@@ -41,6 +41,7 @@
   (convert-to-layered-hash
    (:balloon (:first-r #lx20
               :expand-speed #lx1
+              :expand (:first #lx3.8 :brake #lx0.2 :min #lx1)
               :guard-time 60
               :edge-color #xff0000)
     :client (:color-table '(#x00bbbb #xbb00bb #xbbbb00))
