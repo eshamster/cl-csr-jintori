@@ -12,7 +12,7 @@
                 :add-touch-marker)
   (:import-from :cl-csr-jintori/game/utils
                 :out-of-screen-p)
-  (:import-from :proto-cl-client-side-rendering
+  (:import-from :cl-csr
                 :get-client-id-list
                 :get-new-client-id-list
                 :get-deleted-client-id-list

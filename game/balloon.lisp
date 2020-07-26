@@ -14,7 +14,7 @@
                 :get-param)
   (:import-from :cl-csr-jintori/game/utils
                 :out-of-screen-p)
-  (:import-from :proto-cl-client-side-rendering
+  (:import-from :cl-csr
                 :mouse-up-p
                 :mouse-down-now-p
                 :touch-summary-up-p

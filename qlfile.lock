@@ -1,32 +1,32 @@
 ("quicklisp" .
  (:class qlot.source.ql:source-ql-all
   :initargs (:distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
-  :version "2019-08-13"))
+  :version "2020-07-15"))
 ("ps-experiment" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "ps-experiment" :repos "eshamster/ps-experiment" :ref nil :branch nil :tag nil)
-  :version "github-ede4f0ade50a125c3524b138e561ed9e9830dd03"
+  :version "github-4aeaf87d0f08a4fcac6f190c2c809d14b094a7e5"
   :repos "eshamster/ps-experiment"
-  :url "https://github.com/eshamster/ps-experiment/archive/ede4f0ade50a125c3524b138e561ed9e9830dd03.tar.gz"
-  :ref "ede4f0ade50a125c3524b138e561ed9e9830dd03"))
+  :url "https://github.com/eshamster/ps-experiment/archive/4aeaf87d0f08a4fcac6f190c2c809d14b094a7e5.tar.gz"
+  :ref "4aeaf87d0f08a4fcac6f190c2c809d14b094a7e5"))
 ("cl-ps-ecs" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "cl-ps-ecs" :repos "eshamster/cl-ps-ecs" :ref nil :branch nil :tag nil)
-  :version "github-16400d8b883dcf00fcd0d4a093974e6f15bb7eb7"
+  :version "github-49a54b43d19cb1ef307dbe5ebe75f77e7e166f38"
   :repos "eshamster/cl-ps-ecs"
-  :url "https://github.com/eshamster/cl-ps-ecs/archive/16400d8b883dcf00fcd0d4a093974e6f15bb7eb7.tar.gz"
-  :ref "16400d8b883dcf00fcd0d4a093974e6f15bb7eb7"))
-("proto-cl-client-side-rendering" .
+  :url "https://github.com/eshamster/cl-ps-ecs/archive/49a54b43d19cb1ef307dbe5ebe75f77e7e166f38.tar.gz"
+  :ref "49a54b43d19cb1ef307dbe5ebe75f77e7e166f38"))
+("cl-csr" .
  (:class qlot.source.github:source-github
-  :initargs (:project-name "proto-cl-client-side-rendering" :repos "eshamster/proto-cl-client-side-rendering" :ref nil :branch nil :tag nil)
-  :version "github-e14274fd7cc105d6bba21cf47abac8c7deade860"
-  :repos "eshamster/proto-cl-client-side-rendering"
-  :url "https://github.com/eshamster/proto-cl-client-side-rendering/archive/e14274fd7cc105d6bba21cf47abac8c7deade860.tar.gz"
-  :ref "e14274fd7cc105d6bba21cf47abac8c7deade860"))
+  :initargs (:project-name "cl-csr" :repos "eshamster/cl-csr" :ref nil :branch nil :tag nil)
+  :version "github-1c0262a2b372cbd82255237ba2f7b617d99ce38e"
+  :repos "eshamster/cl-csr"
+  :url "https://github.com/eshamster/cl-csr/archive/1c0262a2b372cbd82255237ba2f7b617d99ce38e.tar.gz"
+  :ref "1c0262a2b372cbd82255237ba2f7b617d99ce38e"))
 ("cl-csr-2d-game" .
  (:class qlot.source.github:source-github
   :initargs (:project-name "cl-csr-2d-game" :repos "eshamster/cl-csr-2d-game" :ref nil :branch nil :tag nil)
-  :version "github-878d4aaae2c51f848effb348389208af6aa6b0e5"
+  :version "github-bbe1b520c97ea0a2def2d82bee509444f6afe1d2"
   :repos "eshamster/cl-csr-2d-game"
-  :url "https://github.com/eshamster/cl-csr-2d-game/archive/878d4aaae2c51f848effb348389208af6aa6b0e5.tar.gz"
-  :ref "878d4aaae2c51f848effb348389208af6aa6b0e5"))
+  :url "https://github.com/eshamster/cl-csr-2d-game/archive/bbe1b520c97ea0a2def2d82bee509444f6afe1d2.tar.gz"
+  :ref "bbe1b520c97ea0a2def2d82bee509444f6afe1d2"))

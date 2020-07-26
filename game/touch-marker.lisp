@@ -8,7 +8,7 @@
   (:import-from :cl-csr-jintori/game/parameter
                 :get-param
                 :get-depth)
-  (:import-from :proto-cl-client-side-rendering
+  (:import-from :cl-csr
                 :mouse-down-now-p
                 :touch-summary-down-now-p))
 (in-package :cl-csr-jintori/game/touch-marker)

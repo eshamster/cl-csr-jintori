@@ -9,7 +9,7 @@
   (:import-from :cl-csr-jintori/game/process
                 :init-game
                 :update-game)
-  (:import-from :proto-cl-client-side-rendering
+  (:import-from :cl-csr
                 :ensure-js-files
                 :make-src-list-for-script-tag
                 :make-client-side-rendering-middleware)
