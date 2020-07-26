@@ -48,7 +48,7 @@
     ;; Assume that valid client id is positive number
     :nil-owner (:id -1 :color #x888888)
     :stat-graph (:width #lx40 :length #lx960
-                 :x #lx20 :y #ly20)
+                 :x #lx20 :y #ly940)
     :marker (:global (:duration 10 :r #lx10)
              :local (:duration 30 :length #ly400 :color #xff0000)))))
 
