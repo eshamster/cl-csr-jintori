@@ -14,7 +14,7 @@
                 :get-param)
   (:import-from :cl-csr-jintori/game/utils
                 :out-of-screen-p)
-  (:import-from :proto-cl-client-side-rendering
+  (:import-from :cl-csr
                 :mouse-up-p
                 :mouse-down-now-p
                 :touch-summary-up-p
@@ -115,7 +115,7 @@ Otherwise, returns generalized true."
 (defun make-rest-guard-model (r rest-duration max-duration)
   (make-model-2d :mesh (make-arc-mesh :r (* r 1.1)
                                       :color (get-balloon-param :edge-color)
-                                      :start-angle (* 1/2 PI)
+                                      :start-angle (* -1/2 PI)
                                       :sweep-angle (* -2 PI (/ rest-duration
                                                                max-duration)))
                  :depth (get-depth :balloon-edge)

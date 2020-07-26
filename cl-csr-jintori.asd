@@ -17,7 +17,7 @@
   :license "MIT"
   :depends-on (:cl-markup
                :ningle
-               :proto-cl-client-side-rendering
+               :cl-csr
                :cl-csr-2d-game
                :cl-csr-jintori/main)
   :description "Jintori game using client side rendering (CSR)")
